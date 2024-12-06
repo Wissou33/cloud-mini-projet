@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Liste des Clients</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif; /* Classic serif font */
+            background-color: #f9f9f9;
+            margin: 20px;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #5a3e36;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        button {
+            padding: 5px 10px;
+            background-color: #5a3e36;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #8c4d44;
+        }
+
+        a {
+            text-decoration: none;
+            color: #5a3e36;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .search-container input[type="text"] {
+            padding: 8px;
+            width: 250px;
+            border: 1px solid #ccc;
+            background-color: #fafafa;
+        }
+
+        .search-container button {
+            padding: 8px 15px;
+            background-color: #5a3e36;
+            color: white;
+            border: none;
+        }
+
+        .search-container button:hover {
+            background-color: #8c4d44;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Liste des Clients</h1>
+
+<div class="search-container">
+    <form action="#" th:action="@{/clients}" method="get">
+        <input type="text" name="searchQuery" placeholder="Rechercher par nom, prénom..." th:value="${searchQuery}"/>
+        <button type="submit">Rechercher</button>
+    </form>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Âge</th>
+        <th>Région</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="client : ${clients}">
+        <td th:text="${client.nom}"></td>
+        <td th:text="${client.prenom}"></td>
+        <td th:text="${client.age}"></td>
+        <td th:text="${client.region.libelle}"></td>
+        <td>
+            <a th:href="@{/clients/update/{id}(id=${client.id})}">Modifier</a>
+            <form th:action="@{/clients/delete/{id}(id=${client.id})}" method="post" style="display:inline;">
+                <button type="submit">Supprimer</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div style="text-align: center; margin-top: 20px;">
+    <a th:href="@{/clients/create}">Ajouter un nouveau client</a>
+</div>
+
+</body>
+</html>
